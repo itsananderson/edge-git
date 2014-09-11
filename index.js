@@ -41,16 +41,18 @@ var invoke = edge.func(function Init() {/*
                 var methodName = input.method.ToString();
                 var args = ((object[])input.args)
                     .ToArray();
-                var argTypes = ((object[])input.argTypes)
-                    .Cast<string>()
-                    .Select(t => Type.GetType(t) )
-                    .ToArray();
-                Console.WriteLine(null == argTypes[1]);
-                var method = typeof(Repository).GetMethod(methodName, argTypes);
-                Console.WriteLine(method);
+                MethodInfo method;
+                if (null != input.GetType().GetProperty("argTypes"))
+                {
+                    var argTypes = ((object[])input.argTypes)
+                        .Cast<string>()
+                        .Select(t => Type.GetType(t) )
+                        .ToArray();
+                    method = typeof(Repository).GetMethod(methodName, argTypes);
+                } else {
+                    method = typeof(Repository).GetMethod(methodName);
+                }
                 return method.Invoke(null, args);
-                //var initPath = Repository.Init(path);
-                //return initPath;
             }
 
             using (var repo = new Repository(path)) {
@@ -100,6 +102,19 @@ function init(path, cb) {
     });
 }
 
+function clone(url, path, cb) {
+    invoke({
+        target: 'StaticMethod',
+        method: 'Clone',
+        path: path,
+        args: [url, path, null]
+        //argTypes: ['System.String', 'System.String', 'LibGit2Sharp.CloneOptions']
+    }, function(err, path) {
+        if (err) return cb(err);
+        cb(null, new Repository(path));
+    });
+}
+
 init('./test', function(err, repo) {
     if (err) throw err;
     console.log(repo);
@@ -120,4 +135,8 @@ init('./test2', function(err, repo) {
         if (err) throw err;
         console.log(branches);
     });
+});
+
+clone('https://github.com/itsananderson/node-web-server-cli.git', './test3', function(err, repo) {
+    console.log(repo);
 });
