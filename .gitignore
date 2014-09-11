@@ -29,3 +29,7 @@ node_modules
 
 # Ignore netlib/ binaries
 netlib/
+
+# Ignore test repo folders
+test/
+test2/
