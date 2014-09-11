@@ -37,9 +37,20 @@ var invoke = edge.func(function Init() {/*
             var target = input.target.ToString();
             var path = input.path.ToString();
 
-            if ("Init" == target) {
-                var initPath = Repository.Init(path);
-                return initPath;
+            if ("StaticMethod" == target) {
+                var methodName = input.method.ToString();
+                var args = ((object[])input.args)
+                    .ToArray();
+                var argTypes = ((object[])input.argTypes)
+                    .Cast<string>()
+                    .Select(t => Type.GetType(t) )
+                    .ToArray();
+                Console.WriteLine(null == argTypes[1]);
+                var method = typeof(Repository).GetMethod(methodName, argTypes);
+                Console.WriteLine(method);
+                return method.Invoke(null, args);
+                //var initPath = Repository.Init(path);
+                //return initPath;
             }
 
             using (var repo = new Repository(path)) {
@@ -78,8 +89,11 @@ var invoke = edge.func(function Init() {/*
 
 function init(path, cb) {
     invoke({
-        target: 'Init',
-        path: path
+        target: 'StaticMethod',
+        method: 'Init',
+        path: path,
+        args: [path, false],
+        argTypes: ['System.String', 'System.Boolean']
     }, function(err, path) {
         if (err) return cb(err);
         cb(null, new Repository(path));
