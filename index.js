@@ -2,11 +2,11 @@ var edge = require('edge');
 
 var myFunction = edge.func(function() {/*
     async (input) => {
-        return "Hello, World";
+        return "Hello, " + input.ToString();
     }
 */});
 
-myFunction('asdf', function(err, result) {
+myFunction('World', function(err, result) {
     if (err) throw err;
     console.log(result);
 });
