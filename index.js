@@ -1,34 +1,71 @@
 var edge = require('edge');
 
-var init = edge.func(function Init() {/*
+function Repository(path) {
+    this.path = path;
+}
+
+Repository.prototype.branches = function branches(cb) {
+    invoke({
+        target: 'branches',
+        args: [this.path]
+    }, cb);
+};
+
+var invoke = edge.func(function Init() {/*
     #r "netlib/LibGit2Sharp.0.19.0.0/lib/net40/LibGit2Sharp.dll"
 
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using LibGit2Sharp;
 
     public class Startup {
-        private static Dictionary<string, string> repositories = new Dictionary<string, string>();
+        public async Task<object> Invoke(dynamic input) {
+            var target = input.target.ToString();
 
-        public async Task<object> Invoke(object input) {
-            var path = input.ToString();
-            var initPath = Repository.Init(path);
-            using (var repo = new Repository(initPath)) {
-                var id = Guid.NewGuid().ToString();
-                repositories.Add(id, repo.Info.Path);
-                return id;
+            var path = input.args[0].ToString();
+
+            if ("init" == target) {
+                var initPath = Repository.Init(path);
+                return initPath;
             }
+
+            using (var repo = new Repository(path)) {
+                if ("branches" == target) {
+                    return repo.Branches.Select(b => b.Name).ToArray();
+                }
+            }
+
+            return null;
         }
     }
 */});
 
-init('./test', function(err, result) {
+function init(path, cb) {
+    invoke({
+        target: 'init',
+        args: [path]
+    }, function(err, path) {
+        if (err) return cb(err);
+        cb(null, new Repository(path));
+    });
+}
+
+init('./test', function(err, repo) {
     if (err) throw err;
-    console.log(result);
+    console.log(repo);
+    repo.branches(function(err, branches) {
+        if (err) throw err;
+        console.log(branches);
+    });
 });
 
-init('./test2', function(err, result) {
+init('./test2', function(err, repo) {
     if (err) throw err;
-    console.log(result);
+    console.log(repo);
+    repo.branches(function(err, branches) {
+        if (err) throw err;
+        console.log(branches);
+    });
 });
