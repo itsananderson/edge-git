@@ -31,8 +31,8 @@ repository.clone('https://github.com/itsananderson/node-web-server-cli.git', './
     console.log(repo);
 });
 
-var repoFunc = repo({path:"./test3"}, true);
-var result = repoFunc(null, true);
+var r = repo({path:"./test3"}, true);
+var result = r.branches(null, true);
 console.log(result);
 /*
 function(err, result) {

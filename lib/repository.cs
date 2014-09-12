@@ -14,8 +14,22 @@ public class Startup {
 
         var repo = new Repository(path);
 
-        return (Func<object,Task<object>>)(async (i) => {
-            return repo.Branches.Select(b => b.Name).ToArray();
-        });
+        return new {
+            branches = (Func<object,Task<object>>)(async (i) => {
+                return repo.Branches.Select(b => new {
+                    IsRemote = b.IsRemote,
+                    TrackedBranch = (Func<object,Task<object>>)(async (j) => { return b.TrackedBranch; }),
+                    IsTracking = b.IsTracking,
+                    TrackingDetails = (Func<object,Task<object>>)(async (j) => { return b.TrackingDetails; }),
+                    IsCurrentRepositoryHead = b.IsCurrentRepositoryHead,
+                    Tip = (Func<object,Task<object>>)(async (j) => { return b.Tip; }),
+                    UpstreamBranchCanonicalName = b.UpstreamBranchCanonicalName,
+                    Remote = (Func<object,Task<object>>)(async (j) => { return b.Remote; }),
+                    CanonicalName = b.CanonicalName,
+                    Commits = (Func<object,Task<object>>)(async (j) => { return b.Commits; }),
+                    Name = b.Name
+                }).ToArray();
+            })
+        };
     }
 }
