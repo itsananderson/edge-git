@@ -1,4 +1,4 @@
-#r "netlib/LibGit2Sharp.0.19.0.0/lib/net40/LibGit2Sharp.dll"
+#r "{libgit2sharp_path}"
 
 using System;
 using System.Linq;
@@ -15,20 +15,22 @@ public class Startup {
 
         if ("StaticMethod" == target) {
             var methodName = input.method.ToString();
+            var className = input.className.ToString();
             var args = ((object[])input.args)
                 .ToArray();
             MethodInfo method;
             var tInput = input as IDynamicMetaObjectProvider;
             var members = tInput.GetMetaObject(System.Linq.Expressions.Expression.Constant(tInput)).GetDynamicMemberNames();
+            var classType = Assembly.LoadFile(@"{libgit2sharp_path}").GetType(className);
             if (members.Contains("argTypes"))
             {
                 var argTypes = ((object[])input.argTypes)
                     .Cast<string>()
                     .Select(t => Type.GetType(t) )
                     .ToArray();
-                method = typeof(Repository).GetMethod(methodName, argTypes);
+                method = classType.GetMethod(methodName, argTypes);
             } else {
-                method = typeof(Repository).GetMethod(methodName);
+                method = classType.GetMethod(methodName);
             }
             return method.Invoke(null, args);
         }
