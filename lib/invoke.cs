@@ -1,5 +1,3 @@
-#r "{libgit2sharp_path}"
-
 using System;
 using System.Linq;
 using System.Collections.Generic;

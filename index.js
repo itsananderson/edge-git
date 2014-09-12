@@ -1,4 +1,5 @@
 var repository = require('./lib/repository'),
+    repo = require('./lib/repo'),
     path = require('path'),
     rimraf = require('rimraf');
 
@@ -29,3 +30,16 @@ repository.clone('https://github.com/itsananderson/node-web-server-cli.git', './
     if (err) throw err;
     console.log(repo);
 });
+
+var repoFunc = repo({path:"./test3"}, true);
+var result = repoFunc(null, true);
+console.log(result);
+/*
+function(err, result) {
+    if (err) throw err;
+    result(null, function(err, result) {
+        if (err) throw err;
+        console.log(result);
+    });
+});
+*/
