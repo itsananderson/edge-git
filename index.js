@@ -5,10 +5,10 @@ var repository = require('./lib/repository'),
 
 var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2');
 rimraf.sync(repoDir);
-repository.clone('https://github.com/itsananderson/node-web-server-cli.git', repoDir, function(err) {
+repo.Clone({url:'https://github.com/itsananderson/node-web-server-cli.git', path:repoDir}, function(err, repoPath) {
     if (err) throw err;
 
-    var r = repo.Constructor(repoDir, true);
+    var r = repo.Constructor(repoPath, true);
     var result = r.branches(null, true);
     console.log(result);
 });
