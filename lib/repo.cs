@@ -12,7 +12,7 @@ public class Startup {
             Constructor = (Func<object, Task<object>>)(async (path) => {
                 var repo = new Repository(path.ToString());
                 return new {
-                    branches = (Func<object,Task<object>>)(async (i) => {
+                    Branches = (Func<object,Task<object>>)(async (i) => {
                         return repo.Branches.Select(b => new {
                             IsRemote = b.IsRemote,
                             TrackedBranch = (Func<object,Task<object>>)(async (j) => { return b.TrackedBranch; }),
