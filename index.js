@@ -1,5 +1,4 @@
-var repository = require('./lib/repository'),
-    repo = require('./lib/repo')(null, true),
+var repo = require('./lib/repo')(null, true),
     path = require('path'),
     rimraf = require('rimraf');
 
