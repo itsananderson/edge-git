@@ -11,5 +11,6 @@ repo.Clone({url:'https://github.com/itsananderson/node-web-server-cli.git', path
     var r = repo.Constructor(repoPath, true);
     var result = r.Branches(null, true);
     console.log(result);
+    console.log(r.Lookup('master', true));
 });
 
