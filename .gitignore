@@ -31,6 +31,4 @@ node_modules
 netlib/
 
 # Ignore test repo folders
-test/
-test2/
-test3/
+repos/
