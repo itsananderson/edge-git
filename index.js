@@ -3,34 +3,13 @@ var repository = require('./lib/repository'),
     path = require('path'),
     rimraf = require('rimraf');
 
-repository.init('./repos/test1', function(err, repo) {
+var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2');
+rimraf.sync(repoDir);
+repository.clone('https://github.com/itsananderson/node-web-server-cli.git', repoDir, function(err) {
     if (err) throw err;
-    console.log(repo);
-    repo.branches(function(err, branches) {
-        if (err) throw err;
-        console.log(branches);
-    });
-    repo.version(function(err, version) {
-        if (err) throw err;
-        console.log(version);
-    });
+
+    var r = repo({path:repoDir}, true);
+    var result = r.branches(null, true);
+    console.log(result);
 });
 
-repository.init('./repos/test2', function(err, repo) {
-    if (err) throw err;
-    console.log(repo);
-    repo.branches(function(err, branches) {
-        if (err) throw err;
-        console.log(branches);
-    });
-});
-
-rimraf.sync(path.join(__dirname, 'repos', 'test3'));
-repository.clone('https://github.com/itsananderson/node-web-server-cli.git', './repos/test3', function(err, repo) {
-    if (err) throw err;
-    console.log(repo);
-});
-
-var r = repo({path:"./repos/test3"}, true);
-var result = r.branches(null, true);
-console.log(result);
