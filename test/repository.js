@@ -23,10 +23,10 @@ describe('repository', function() {
 
             var repo = new repository(repoPath);
             var branches = repo.BranchesSync();
-            assert.equal(branches[0].Name(null, true), 'master');
+            assert.equal(branches[0].NameSync(), 'master');
 
-            var tip = branches[0].Tip(null, true);
-            var name = branches[0].Name(null, true);
+            var tip = branches[0].TipSync();
+            var name = branches[0].NameSync();
             var branchHead = repo.LookupSync(name);
 
             assert.deepEqual(tip, branchHead);
@@ -38,12 +38,12 @@ describe('repository', function() {
     it('can list commits', function(done) {
         this.timeout(10000);
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
-        var repo = new repository(repoDir, true);
+        var repo = new repository(repoDir);
         var branches = repo.BranchesSync();
         assert.equal(2, branches.length);
 
         branches.forEach(function(branch) {
-            assert.equal(49, branch.Commits(null, true).length);
+            assert.equal(49, branch.CommitsSync().length);
         });
 
         done();
