@@ -20,6 +20,16 @@ describe('repository', function() {
             if (err) throw err;
 
             assert.equal(repoPath, path.join(repoDir, '.git/'));
+
+            var repo = repository.Constructor(repoPath, true);
+            var branches = repo.Branches(null, true);
+            assert.equal(branches[0].Name, 'master');
+
+            var tip = branches[0].Tip(null, true);
+            var name = branches[0].Name;
+            var branchHead = repo.Lookup(name, true);
+            assert.deepEqual(tip, branchHead);
+
             done();
         });
     });
