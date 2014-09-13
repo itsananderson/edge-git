@@ -1,7 +1,7 @@
 var assert = require('assert'),
     path = require('path'),
     rimraf = require('rimraf'),
-    repository = require('../lib/repository')(null, true);
+    repository = require('../lib/repository');
 
 describe('repository', function() {
     it('can be initialized', function(done) {
