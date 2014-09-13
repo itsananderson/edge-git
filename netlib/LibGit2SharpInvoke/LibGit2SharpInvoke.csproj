@@ -45,6 +45,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticWrappers\StaticRepositoryWrapper.cs" />
+    <Compile Include="Wrappers\BranchWrapper.cs" />
     <Compile Include="Wrappers\RepositoryWrapper.cs" />
   </ItemGroup>
   <ItemGroup>

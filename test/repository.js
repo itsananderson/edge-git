@@ -23,10 +23,10 @@ describe('repository', function() {
 
             var repo = repository.Constructor(repoPath, true);
             var branches = repo.Branches(null, true);
-            assert.equal(branches[0].Name, 'master');
+            assert.equal(branches[0].Name(null, true), 'master');
 
             var tip = branches[0].Tip(null, true);
-            var name = branches[0].Name;
+            var name = branches[0].Name(null, true);
             var branchHead = repo.Lookup(name, true);
             assert.deepEqual(tip, branchHead);
 
