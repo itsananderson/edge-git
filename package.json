@@ -24,6 +24,8 @@
     "gulp-mocha": "^1.1.0",
     "gulp-msbuild": "^0.2.4",
     "mocha": "^1.21.4",
-    "rimraf": "^2.2.8"
+    "request": "^2.42.0",
+    "rimraf": "^2.2.8",
+    "shelljs": "^0.3.0"
   }
 }

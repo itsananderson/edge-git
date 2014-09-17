@@ -6,6 +6,7 @@ test.js
 .idea/
 
 # C# related files
+netlib/nuget.exe
 netlib/packages/
 netlib/LibGit2SharpInvoke/bin/Debug/
 netlib/LibGit2SharpInvoke/obj/

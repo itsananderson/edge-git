@@ -213,3 +213,6 @@ FakesAssemblies/
 
 # Ignore test repo folders
 repos/
+
+# Ignore auto-downloaded nuget.exe
+netlib/nuget.exe
