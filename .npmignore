@@ -1,0 +1,13 @@
+# Ignore test repo folders
+repos/
+
+# Misc dev environment files
+test.js
+.idea/
+
+# C# related files
+netlib/packages/
+netlib/LibGit2SharpInvoke/bin/Debug/
+netlib/LibGit2SharpInvoke/obj/
+netlib/LibGit2SharpInvoke.CommandLine/bin/
+netlib/LibGit2SharpInvoke.CommandLine/obj/
