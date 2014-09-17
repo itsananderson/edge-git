@@ -30,14 +30,14 @@ namespace LibGit2SharpInvoke.Wrappers
         public RepositoryWrapper(LibGit2Sharp.Repository repo)
         {
             this.repo = repo;
-            Head = async (i) => { return repo.Head; };
+            Head = async (i) => { return new BranchWrapper(repo.Head); };
             Config = async (i) => { return repo.Config; };
             Index = async (i) => { return repo.Index; };
             Ignore = async (i) => { return repo.Ignore; };
             Network = async (i) => { return repo.Network; };
             ObjectDatabase = async (i) => { return repo.ObjectDatabase; };
             Refs = async (i) => { return repo.Refs; };
-            Commits = async (i) => { return repo.Commits; };
+            Commits = async (i) => { return repo.Commits.Select(c => new CommitWrapper(c)); };
             Tags = async (i) => { return repo.Tags; };
             Stashes = async (i) => { return repo.Stashes; };
             Info = async (i) => { return repo.Info; };

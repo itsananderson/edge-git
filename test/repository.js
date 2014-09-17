@@ -23,11 +23,11 @@ describe('repository', function() {
             assert.equal(repoPath, path.join(repoDir, '.git/'));
 
             var repo = new repository(repoPath);
-            var branches = repo.BranchesSync();
-            assert.equal(branches[0].Name, 'master');
+            var head = repo.HeadSync();
+            assert.equal(head.Name, 'master');
 
-            var tip = branches[0].TipSync();
-            var name = branches[0].Name;
+            var tip = head.TipSync();
+            var name = head.Name;
             var branchHead = repo.LookupSync(name);
 
             assert.equal(tip.Sha, branchHead.Sha);
