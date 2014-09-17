@@ -7,8 +7,8 @@
     <ProjectGuid>{A94FE1EB-2E0E-4414-B05D-0F7EAB8C4D7B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LibGit2SharpInvoke.Console</RootNamespace>
-    <AssemblyName>LibGit2SharpInvoke.Console</AssemblyName>
+    <RootNamespace>LibGit2SharpInvoke.CommandLine</RootNamespace>
+    <AssemblyName>LibGit2SharpInvoke.CommandLine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

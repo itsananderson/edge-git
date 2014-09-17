@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibGit2SharpInvoke", "LibGit2SharpInvoke\LibGit2SharpInvoke.csproj", "{7401E68A-91A6-4320-B197-9C634B853B69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibGit2SharpInvoke.CommandLine", "LibGit2SharpInvoke.Console\LibGit2SharpInvoke.CommandLine.csproj", "{A94FE1EB-2E0E-4414-B05D-0F7EAB8C4D7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibGit2SharpInvoke.CommandLine", "LibGit2SharpInvoke.CommandLine\LibGit2SharpInvoke.CommandLine.csproj", "{A94FE1EB-2E0E-4414-B05D-0F7EAB8C4D7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
