@@ -8,6 +8,14 @@
   },
   "author": "Will Anderson",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/itsananderson/edge-git.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itsananderson/edge-git/issues"
+  },
+  "homepage": "https://github.com/itsananderson/edge-git",
   "dependencies": {
     "edge": "^0.9.2"
   },
