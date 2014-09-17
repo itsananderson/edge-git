@@ -36,7 +36,7 @@ describe('repository', function() {
     });
 
     it('can list commits', function(done) {
-        this.timeout(10000);
+        this.timeout(20000);
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
         var repo = new repository(repoDir);
         var branches = repo.BranchesSync();
