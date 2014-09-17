@@ -6,7 +6,7 @@ gulp.task('build', function() {
     return gulp.src('./netlib/LibGit2SharpInvoke.sln')
         .pipe(msbuild({
             errorOnFail: true,
-            properties: { Configuration: 'Debug' }
+            properties: { Configuration: 'Release' }
         }));
 });
 
