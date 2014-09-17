@@ -1,3 +1,5 @@
 var repository = require('./lib/repository');
 
-// TODO
+module.exports = {
+    repository: repository
+};
