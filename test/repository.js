@@ -14,6 +14,7 @@ describe('repository', function() {
     });
 
     it('can clone', function(done) {
+        this.timeout(5000);
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2');
         rimraf.sync(repoDir);
         repository.Clone({url:'https://github.com/itsananderson/node-web-server-cli.git', path:repoDir}, function(err, repoPath) {
@@ -23,27 +24,27 @@ describe('repository', function() {
 
             var repo = new repository(repoPath);
             var branches = repo.BranchesSync();
-            assert.equal(branches[0].NameSync(), 'master');
+            assert.equal(branches[0].Name, 'master');
 
             var tip = branches[0].TipSync();
-            var name = branches[0].NameSync();
+            var name = branches[0].Name;
             var branchHead = repo.LookupSync(name);
 
-            assert.deepEqual(tip, branchHead);
+            assert.equal(tip.Sha, branchHead.Sha);
 
             done();
         });
     });
 
     it('can list commits', function(done) {
-        this.timeout(20000);
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
         var repo = new repository(repoDir);
         var branches = repo.BranchesSync();
         assert.equal(2, branches.length);
 
         branches.forEach(function(branch) {
-            assert.equal(49, branch.CommitsSync().length);
+            var commits = branch.CommitsSync();
+            assert.equal(49, commits.length);
         });
 
         done();
