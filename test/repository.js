@@ -49,4 +49,37 @@ describe('repository', function() {
 
         done();
     });
+
+    it('can pull changes', function(done) {
+        var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
+        var repo = new repository(repoDir);
+        repo.ResetSync("hard", "HEAD~1");
+        var head = repo.HeadSync();
+        assert.equal(48, head.CommitsSync().length);
+        var date = new Date();
+        var signature = {
+            name: 'Will Anderson',
+            email: 'will@example.com',
+            when: {
+                datetime: date.getTime(),
+                timespan: date.getTimezoneOffset() * 60 * 1000 * 10000
+            }
+        };
+        repo.NetworkSync().PullSync(
+            'origin',
+            'master',
+            signature,
+            {
+                fetch: {
+                    credentials: ""
+                },
+                merge: {}
+            }
+        );
+
+        head = repo.HeadSync();
+        assert.equal(49, head.CommitsSync().length);
+
+        done();
+    });
 });

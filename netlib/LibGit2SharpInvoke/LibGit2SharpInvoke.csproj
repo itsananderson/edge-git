@@ -44,9 +44,16 @@
   <ItemGroup>
     <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticWrappers\StaticCredentialsWrapper.cs" />
+    <Compile Include="StaticWrappers\StaticFetchOptionsWrapper.cs" />
+    <Compile Include="StaticWrappers\StaticMergeOptionsWrapper.cs" />
+    <Compile Include="StaticWrappers\StaticPullOptionsWrapper.cs" />
+    <Compile Include="StaticWrappers\StaticPushOptionsWrapper.cs" />
     <Compile Include="StaticWrappers\StaticRepositoryWrapper.cs" />
+    <Compile Include="StaticWrappers\StaticSignatureWrapper.cs" />
     <Compile Include="Wrappers\BranchWrapper.cs" />
     <Compile Include="Wrappers\CommitWrapper.cs" />
+    <Compile Include="Wrappers\NetworkWrapper.cs" />
     <Compile Include="Wrappers\RepositoryWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
