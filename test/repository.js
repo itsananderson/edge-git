@@ -50,7 +50,7 @@ describe('repository', function() {
         done();
     });
 
-    it('can pull changes', function(done) {
+    it('can pull changes', function() {
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
         var repo = new repository(repoDir);
         repo.ResetSync("hard", "HEAD~1");
@@ -79,7 +79,11 @@ describe('repository', function() {
 
         head = repo.HeadSync();
         assert.equal(49, head.CommitsSync().length);
-
-        done();
     });
+
+    it('can get a list of refs', function() {
+        var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
+        var repo = new repository(repoDir);
+        assert.equal(2, repo.RefsSync().length);
+    })
 });
