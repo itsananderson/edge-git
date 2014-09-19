@@ -13,11 +13,36 @@ describe('repository', function() {
         });
     });
 
-    it('can clone', function(done) {
+    if (!process.env.NO_NETWORK) {
+        it('can clone from url', function (done) {
+            this.timeout(5000);
+            var repoDir = path.join(path.dirname(__dirname), 'repos', 'node-web-server-cli');
+            rimraf.sync(repoDir);
+            repository.Clone({url: 'https://github.com/itsananderson/node-web-server-cli.git', path: repoDir}, function (err, repoPath) {
+                if (err) throw err;
+
+                assert.equal(repoPath, path.join(repoDir, '.git/'));
+
+                var repo = new repository(repoPath);
+                var head = repo.HeadSync();
+                assert.equal(head.Name, 'master');
+
+                var tip = head.TipSync();
+                var name = head.Name;
+                var branchHead = repo.LookupSync(name);
+                assert.equal(tip.Sha, branchHead.Sha);
+
+                done();
+            });
+        });
+    }
+
+    it('can clone from path', function(done) {
         this.timeout(5000);
+        var originPath = path.join(path.dirname(__dirname), 'repos', 'node-web-server-cli/.git');
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2');
         rimraf.sync(repoDir);
-        repository.Clone({url:'https://github.com/itsananderson/node-web-server-cli.git', path:repoDir}, function(err, repoPath) {
+        repository.Clone({url:originPath, path:repoDir}, function(err, repoPath) {
             if (err) throw err;
 
             assert.equal(repoPath, path.join(repoDir, '.git/'));
