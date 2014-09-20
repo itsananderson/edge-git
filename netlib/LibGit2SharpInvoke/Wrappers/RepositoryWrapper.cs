@@ -28,6 +28,7 @@ namespace LibGit2SharpInvoke.Wrappers
         public Func<object, Task<object>> Dispose;
         public Func<object, Task<object>> Lookup;
         public Func<object, Task<object>> Reset;
+        public Func<object, Task<object>> Checkout;
 
         public RepositoryWrapper(Repository repo)
         {
@@ -69,6 +70,11 @@ namespace LibGit2SharpInvoke.Wrappers
                 var committish = (string)i.committish;
                 repo.Reset(mode, committish, null, null);
                 return null;
+            };
+            Checkout = async (i) => {
+                var branch = repo.Branches.First(b => b.Name == i.ToString());
+                repo.Checkout(branch);
+                return branch;
             };
         }
     }

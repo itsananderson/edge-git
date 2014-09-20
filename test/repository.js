@@ -6,6 +6,7 @@ var assert = require('assert'),
 describe('repository', function() {
     it('can be initialized', function(done) {
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test1');
+        rimraf.sync(repoDir);
         repository.Init(repoDir, function(err, repoPath) {
             if (err) throw err;
             assert.equal(repoPath, path.join(repoDir, '.git/'));
@@ -75,9 +76,26 @@ describe('repository', function() {
         done();
     });
 
+    it('can fetch changes', function() {
+        var repoDir = path.join(path.dirname(__dirname), 'repos', 'test1', '.git');
+        var originPath = path.join(path.dirname(__dirname), 'repos', 'node-web-server-cli/.git');
+        var repo = new repository(repoDir);
+
+        var network = repo.NetworkSync();
+        network.AddRemoteSync("origin", originPath);
+        network.FetchSync("origin", {credentials: ""});
+
+        var originMaster = repo.BranchesSync().filter(function(b) {
+            return b.Name === "origin/master";
+        })[0];
+
+        assert.equal(49, originMaster.CommitsSync().length);
+    });
+
     it('can pull changes', function() {
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
         var repo = new repository(repoDir);
+
         repo.ResetSync("hard", "HEAD~1");
         var head = repo.HeadSync();
         assert.equal(48, head.CommitsSync().length);

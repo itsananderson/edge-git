@@ -9,6 +9,8 @@ namespace LibGit2SharpInvoke.Wrappers
     {
         private LibGit2Sharp.Network network;
         public Func<object, Task<object>> Remotes;
+        public Func<object, Task<object>> AddRemote;
+        public Func<object, Task<object>> RemoveRemote;
         public Func<object, Task<object>> ListReferences;
         public Func<object, Task<object>> Fetch;
         public Func<object, Task<object>> Pull;
@@ -18,6 +20,8 @@ namespace LibGit2SharpInvoke.Wrappers
         {
             this.network = network;
             Remotes = async (i) => network.Remotes;
+            AddRemote = async (dynamic i) => network.Remotes.Add(i.name.ToString(), i.url.ToString());
+            RemoveRemote = async (i) => { network.Remotes.Remove(i.ToString()); return null; };
             ListReferences = async (i) => {
                 if (i.GetType() == typeof(String)) {
                     return network.ListReferences(i.ToString());
