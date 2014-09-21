@@ -31,7 +31,7 @@ namespace LibGit2SharpInvoke.Wrappers
             };
             Fetch = async (dynamic i) =>
             {
-                var remote = network.Remotes.First(r => r.Name == i.remote);
+                var remote = network.Remotes[i.remote];
                 network.Fetch(remote);
                 return null;
             };
@@ -43,7 +43,7 @@ namespace LibGit2SharpInvoke.Wrappers
             };
             Push = async (dynamic i) =>
             {
-                var remote = network.Remotes.First(r => r.Name == i.remote);
+                var remote = network.Remotes[i.remote];
                 var objectish = (string)i.objectish;
                 var destinationSpec = (string)i.destinationSpec;
                 var signature = StaticSignatureWrapper.GenerateSignature(i.signature);
