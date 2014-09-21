@@ -32,7 +32,7 @@ namespace LibGit2SharpInvoke.Wrappers
             Fetch = async (dynamic i) =>
             {
                 var remote = network.Remotes[i.remote];
-                network.Fetch(remote);
+                network.Fetch(remote, StaticFetchOptionsWrapper.GenerateFetchOptions(i.options));
                 return null;
             };
             Pull = async (dynamic i) =>

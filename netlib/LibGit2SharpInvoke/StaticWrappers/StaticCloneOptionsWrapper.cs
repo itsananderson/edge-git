@@ -10,7 +10,7 @@ namespace LibGit2SharpInvoke.StaticWrappers
             {
                 IsBare = options.bare,
                 Checkout = options.checkout,
-                Credentials = StaticCredentialsWrapper.GenerateCredentials(options.credentials)
+                CredentialsProvider = (url, usernameFromUrl, types) => StaticCredentialsWrapper.GenerateCredentials(options.credentials)
             };
         }
     }
