@@ -7,7 +7,18 @@ namespace LibGit2SharpInvoke.StaticWrappers
     {
         public static Credentials GenerateCredentials(dynamic input)
         {
-            return new DefaultCredentials();
+            if (null == input)
+            {
+                return new DefaultCredentials();
+            }
+            else
+            {
+                return new UsernamePasswordCredentials()
+                {
+                    Username = input.username,
+                    Password = input.password
+                };
+            }
         }
     }
 }

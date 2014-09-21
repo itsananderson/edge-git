@@ -83,7 +83,7 @@ describe('repository', function() {
 
         var network = repo.NetworkSync();
         network.AddRemoteSync("origin", originPath);
-        network.FetchSync("origin", {credentials: ""});
+        network.FetchSync("origin", {credentials: null});
 
         var originMaster = repo.BranchesSync().filter(function(b) {
             return b.Name === "origin/master";
@@ -114,7 +114,7 @@ describe('repository', function() {
             signature,
             {
                 fetch: {
-                    credentials: ""
+                    credentials: null
                 },
                 merge: {}
             }
