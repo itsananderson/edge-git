@@ -10,7 +10,7 @@ namespace LibGit2SharpInvoke.StaticWrappers
             return new FetchOptions
             {
                 // TODO: implement other options
-                Credentials = StaticCredentialsWrapper.GenerateCredentials(input.credentials)
+                CredentialsProvider = (url, usernameFromUrl, types) => StaticCredentialsWrapper.GenerateCredentials(input.credentials)
             };
         }
     }
