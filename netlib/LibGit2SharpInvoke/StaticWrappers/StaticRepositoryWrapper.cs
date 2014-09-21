@@ -25,7 +25,15 @@ namespace LibGit2SharpInvoke.StaticWrappers
             });
 
             Clone = (Func<object, Task<object>>)(async (dynamic input) => {
-                return Repository.Clone(input.url.ToString(), input.path.ToString());
+                if (null == input.options)
+                {
+                    return Repository.Clone(input.url.ToString(), input.path.ToString());
+                }
+                else
+                {
+                    return Repository.Clone(input.url.ToString(), input.path.ToString(), StaticCloneOptionsWrapper.GenerateCloneOptions(input.options));
+                }
+
             });
 
             IsValid = (async (path) => {

@@ -19,7 +19,7 @@ describe('repository', function() {
             this.timeout(5000);
             var repoDir = path.join(path.dirname(__dirname), 'repos', 'node-web-server-cli');
             rimraf.sync(repoDir);
-            repository.Clone({url: 'https://github.com/itsananderson/node-web-server-cli.git', path: repoDir}, function (err, repoPath) {
+            repository.Clone('https://github.com/itsananderson/node-web-server-cli.git', repoDir, function (err, repoPath) {
                 if (err) throw err;
 
                 assert.equal(repoPath, path.join(repoDir, '.git/'));
@@ -43,7 +43,7 @@ describe('repository', function() {
         var originPath = path.join(path.dirname(__dirname), 'repos', 'node-web-server-cli/.git');
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2');
         rimraf.sync(repoDir);
-        repository.Clone({url:originPath, path:repoDir}, function(err, repoPath) {
+        repository.Clone(originPath, repoDir, function(err, repoPath) {
             if (err) throw err;
 
             assert.equal(repoPath, path.join(repoDir, '.git/'));

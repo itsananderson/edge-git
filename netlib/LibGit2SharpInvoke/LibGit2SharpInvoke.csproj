@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticWrappers\StaticCloneOptionsWrapper.cs" />
     <Compile Include="StaticWrappers\StaticCredentialsWrapper.cs" />
     <Compile Include="StaticWrappers\StaticFetchOptionsWrapper.cs" />
     <Compile Include="StaticWrappers\StaticMergeOptionsWrapper.cs" />
