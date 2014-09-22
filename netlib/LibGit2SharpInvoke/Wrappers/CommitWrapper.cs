@@ -13,7 +13,7 @@ namespace LibGit2SharpInvoke.Wrappers
         public string Sha;
         public string MessageShort;
         public string Message;
-        public LibGit2Sharp.Tree Tree;
+        public Func<object, Task<object>> Tree;
         public Func<object, Task<object>> Parents;
 
         public CommitWrapper(LibGit2Sharp.Commit commit)
@@ -23,7 +23,7 @@ namespace LibGit2SharpInvoke.Wrappers
             Sha = commit.Sha;
             MessageShort = commit.MessageShort;
             Message = commit.Message;
-            Tree = commit.Tree;
+            Tree = (async (i) => commit.Tree);
             Parents = (async (i) => commit.Parents.Select((p) => new CommitWrapper(p)));
         }
     }
