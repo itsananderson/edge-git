@@ -126,5 +126,13 @@ describe('repository', function() {
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
         var repo = new repository(repoDir);
         assert.equal(2, repo.RefsSync().length);
-    })
+    });
+
+    it('can get commits after a given commit', function() {
+        var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
+        var repo = new repository(repoDir);
+        var commitsAfter = repo.BranchesSync()['master'].CommitsSync('68c717b');
+        assert.equal(9, commitsAfter.length);
+    });
+
 });

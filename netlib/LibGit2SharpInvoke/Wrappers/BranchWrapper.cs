@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibGit2Sharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace LibGit2SharpInvoke.Wrappers
 {
     class BranchWrapper
     {
-        private LibGit2Sharp.Branch branch;
+        private Branch branch;
 
         public bool IsRemote { get; private set; }
 
@@ -24,7 +25,7 @@ namespace LibGit2SharpInvoke.Wrappers
 
         public Func<object, Task<object>> UpstreamBranchCanonicalName { get; private set; }
 
-        public LibGit2Sharp.Remote Remote { get; private set; }
+        public Remote Remote { get; private set; }
 
         public string CanonicalName { get; private set; }
 
@@ -32,23 +33,50 @@ namespace LibGit2SharpInvoke.Wrappers
 
         public string Name { get; private set; }
 
-        public BranchWrapper(LibGit2Sharp.Branch b)
+        public BranchWrapper(Repository repo, Branch branch)
         {
-            branch = b;
-            IsRemote = b.IsRemote;
-            if (b.TrackedBranch != null)
+            this.branch = branch;
+            IsRemote = branch.IsRemote;
+            if (branch.TrackedBranch != null)
             {
-                TrackedBranch = new BranchWrapper(b.TrackedBranch);
+                TrackedBranch = new BranchWrapper(repo, branch.TrackedBranch);
             }
-            IsTracking = b.IsTracking;
-            TrackingDetails = (Func<object, Task<object>>)(async (j) => { return b.TrackingDetails; });
-            IsCurrentRepositoryHead = (Func<object, Task<object>>)(async (j) => { return b.IsCurrentRepositoryHead; });
-            Tip = async (j) => { return new CommitWrapper(b.Tip); };
-            UpstreamBranchCanonicalName = (Func<object, Task<object>>)(async (j) => { return b.UpstreamBranchCanonicalName; });
-            Remote = b.Remote;
-            CanonicalName = b.CanonicalName;
-            Commits = (Func<object, Task<object>>)(async (j) => { return b.Commits.Select(c => new CommitWrapper(c)); });
-            Name = b.Name;
+            IsTracking = branch.IsTracking;
+            TrackingDetails = (Func<object, Task<object>>)(async (j) => { return branch.TrackingDetails; });
+            IsCurrentRepositoryHead = (Func<object, Task<object>>)(async (j) => { return branch.IsCurrentRepositoryHead; });
+            Tip = async (j) => { return new CommitWrapper(branch.Tip); };
+            UpstreamBranchCanonicalName = (Func<object, Task<object>>)(async (j) => { return branch.UpstreamBranchCanonicalName; });
+            Remote = branch.Remote;
+            CanonicalName = branch.CanonicalName;
+            Commits = (Func<object, Task<object>>)(async (j) => {
+                if (j != null)
+                {
+                    Commit after = repo.Lookup<Commit>((string)j);
+                    Commit until = branch.Tip;
+                    Commit ancestor = repo.Commits.FindMergeBase(after, until);
+                    return CommitsAfter(after, until, ancestor).Distinct().Select(c => new CommitWrapper(c));
+                }
+                else
+                {
+                    return branch.Commits.Select(c => new CommitWrapper(c));
+                }
+            });
+            Name = branch.Name;
+        }
+
+        private IEnumerable<Commit> CommitsAfter(Commit after, Commit until, Commit ancestor)
+        {
+            if (until.Sha != after.Sha && until.Sha != ancestor.Sha)
+            {
+                yield return until;
+                foreach (var parent in until.Parents)
+                {
+                    foreach (var commit in CommitsAfter(after, parent, ancestor))
+                    {
+                        yield return commit;
+                    }
+                }
+            }
         }
     }
 }

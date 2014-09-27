@@ -33,7 +33,7 @@ namespace LibGit2SharpInvoke.Wrappers
         public RepositoryWrapper(Repository repo)
         {
             this.repo = repo;
-            Head = async (i) => { return new BranchWrapper(repo.Head); };
+            Head = async (i) => { return new BranchWrapper(repo, repo.Head); };
             Config = async (i) => { return repo.Config; };
             Index = async (i) => { return repo.Index; };
             Ignore = async (i) => { return repo.Ignore; };
@@ -56,7 +56,7 @@ namespace LibGit2SharpInvoke.Wrappers
                     return found;
                 }
             };
-            Branches = async (i) => repo.Branches.Select(b => new BranchWrapper(b)).ToDictionary(b => b.Name);
+            Branches = async (i) => repo.Branches.Select(b => new BranchWrapper(repo, b)).ToDictionary(b => b.Name);
             Reset = async (dynamic i) => {
                 var modeName = ((string)i.mode).ToLower();
                 ResetMode mode;
