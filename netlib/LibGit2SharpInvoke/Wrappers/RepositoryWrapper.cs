@@ -56,7 +56,7 @@ namespace LibGit2SharpInvoke.Wrappers
                     return found;
                 }
             };
-            Branches = async (i) => repo.Branches.Select(b => new BranchWrapper(b));
+            Branches = async (i) => repo.Branches.Select(b => new BranchWrapper(b)).ToDictionary(b => b.Name);
             Reset = async (dynamic i) => {
                 var modeName = ((string)i.mode).ToLower();
                 ResetMode mode;

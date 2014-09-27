@@ -1,4 +1,5 @@
-var assert = require('assert'),
+var _ = require('lodash'),
+    assert = require('assert'),
     path = require('path'),
     rimraf = require('rimraf'),
     repository = require('../lib/repository');
@@ -66,9 +67,9 @@ describe('repository', function() {
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
         var repo = new repository(repoDir);
         var branches = repo.BranchesSync();
-        assert.equal(2, branches.length);
+        assert.equal(2, Object.keys(branches).length);
 
-        branches.forEach(function(branch) {
+        _.values(branches).forEach(function(branch) {
             var commits = branch.CommitsSync();
             assert.equal(49, commits.length);
         });
@@ -85,10 +86,7 @@ describe('repository', function() {
         network.AddRemoteSync("origin", originPath);
         network.FetchSync("origin", {credentials: null});
 
-        var originMaster = repo.BranchesSync().filter(function(b) {
-            return b.Name === "origin/master";
-        })[0];
-
+        var originMaster = repo.BranchesSync()['origin/master'];
         assert.equal(49, originMaster.CommitsSync().length);
     });
 
