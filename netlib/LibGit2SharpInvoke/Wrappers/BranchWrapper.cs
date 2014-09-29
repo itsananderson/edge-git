@@ -9,6 +9,8 @@ namespace LibGit2SharpInvoke.Wrappers
 {
     class BranchWrapper
     {
+        private Repository repo;
+        
         private Branch branch;
 
         public bool IsRemote { get; private set; }
@@ -35,6 +37,7 @@ namespace LibGit2SharpInvoke.Wrappers
 
         public BranchWrapper(Repository repo, Branch branch)
         {
+            this.repo = repo;
             this.branch = branch;
             IsRemote = branch.IsRemote;
             if (branch.TrackedBranch != null)
@@ -53,7 +56,7 @@ namespace LibGit2SharpInvoke.Wrappers
                 {
                     Commit after = repo.Lookup<Commit>((string)j);
                     Commit until = branch.Tip;
-                    Commit ancestor = repo.Commits.FindMergeBase(after, until);
+                    Commit ancestor = repo.Commits.FindMergeBase(after, until) ?? after;
                     return CommitsAfter(after, until, ancestor).Distinct().Select(c => new CommitWrapper(c));
                 }
                 else
@@ -71,7 +74,8 @@ namespace LibGit2SharpInvoke.Wrappers
                 yield return until;
                 foreach (var parent in until.Parents)
                 {
-                    foreach (var commit in CommitsAfter(after, parent, ancestor))
+                    var thisAncestor = this.repo.Commits.FindMergeBase(ancestor, parent);
+                    foreach (var commit in CommitsAfter(after, parent, thisAncestor ?? ancestor))
                     {
                         yield return commit;
                     }
