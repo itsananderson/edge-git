@@ -18,9 +18,9 @@ describe('repository', function() {
     if (!process.env.NO_NETWORK) {
         it('can clone from url', function (done) {
             this.timeout(5000);
-            var repoDir = path.join(path.dirname(__dirname), 'repos', 'node-web-server-cli');
+            var repoDir = path.join(path.dirname(__dirname), 'repos', 'TestGitRepository');
             rimraf.sync(repoDir);
-            repository.Clone('https://github.com/itsananderson/node-web-server-cli.git', repoDir, function (err, repoPath) {
+            repository.Clone('https://github.com/libgit2/TestGitRepository.git', repoDir, function (err, repoPath) {
                 if (err) throw err;
 
                 assert.equal(repoPath, path.join(repoDir, '.git/'));
@@ -41,7 +41,7 @@ describe('repository', function() {
 
     it('can clone from path', function(done) {
         this.timeout(5000);
-        var originPath = path.join(path.dirname(__dirname), 'repos', 'node-web-server-cli/.git');
+        var originPath = path.join(path.dirname(__dirname), 'repos', 'TestGitRepository', '.git');
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2');
         rimraf.sync(repoDir);
         repository.Clone(originPath, repoDir, function(err, repoPath) {
@@ -71,7 +71,7 @@ describe('repository', function() {
 
         _.values(branches).forEach(function(branch) {
             var commits = branch.CommitsSync();
-            assert.equal(49, commits.length);
+            assert.equal(21, commits.length);
         });
 
         done();
@@ -79,7 +79,7 @@ describe('repository', function() {
 
     it('can fetch changes', function() {
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test1', '.git');
-        var originPath = path.join(path.dirname(__dirname), 'repos', 'node-web-server-cli/.git');
+        var originPath = path.join(path.dirname(__dirname), 'repos', 'TestGitRepository', '.git');
         var repo = new repository(repoDir);
 
         var network = repo.NetworkSync();
@@ -87,7 +87,7 @@ describe('repository', function() {
         network.FetchSync("origin", {credentials: null});
 
         var originMaster = repo.BranchesSync()['origin/master'];
-        assert.equal(49, originMaster.CommitsSync().length);
+        assert.equal(21, originMaster.CommitsSync().length);
     });
 
     it('can pull changes', function() {
@@ -96,7 +96,7 @@ describe('repository', function() {
 
         repo.ResetSync("hard", "HEAD~1");
         var head = repo.HeadSync();
-        assert.equal(48, head.CommitsSync().length);
+        assert.equal(18, head.CommitsSync().length);
         var date = new Date();
         var signature = {
             name: 'Will Anderson',
@@ -119,20 +119,21 @@ describe('repository', function() {
         );
 
         head = repo.HeadSync();
-        assert.equal(49, head.CommitsSync().length);
+        assert.equal(21, head.CommitsSync().length);
     });
 
     it('can get a list of refs', function() {
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
         var repo = new repository(repoDir);
-        assert.equal(2, repo.RefsSync().length);
+        assert.equal(6, repo.RefsSync().length);
     });
 
     it('can get commits after a given commit', function() {
         var repoDir = path.join(path.dirname(__dirname), 'repos', 'test2', '.git');
         var repo = new repository(repoDir);
-        var commitsAfter = repo.BranchesSync()['master'].CommitsSync('68c717b');
-        assert.equal(9, commitsAfter.length);
+        var commitsAfter = repo.BranchesSync()['master'].CommitsSync('58be4659bb571194ed4562d04b359d26216f526e');
+        //console.log(commitsAfter.map(function(c) { return c.Sha}));
+        assert.equal(19, commitsAfter.length);
     });
 
 });
